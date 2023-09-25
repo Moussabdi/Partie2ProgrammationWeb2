@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import MealService from "../service/MealService";
+import MealsService from "../service/MealsService";
 import { Link } from "react-router-dom";
 
-const mealService = new MealService();
+const mealsService = new MealsService();
 
 const Meals = () => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => mealService.getAllCategoriesOfMeal(),
+    queryFn: () => mealsService.getAllCategoriesOfMeal(),
   });
 
   if (isLoading) return <div>Loading</div>;
@@ -15,13 +15,16 @@ const Meals = () => {
   return (
     <div>
       {data &&
-        data.map((categories) => {
+        data.map((category) => {
           return (
-            <div className="grid grid-cols-4 " key={categories.strCategory}>
-              <Link to={`/categories/${categories.idCategory}`}>
-                <h2>{categories.strCategory}</h2>
+            <div
+              className="grid grid-cols-4 columns-3xs"
+              key={category.idCategory}
+            >
+              <Link to={`/category/${category.strCategory}`}>
+                <h2>{category.strCategory}</h2>
               </Link>
-              <p>{categories.strCategoryDescription}</p>
+              <p>{category.strCategoryDescription}</p>
             </div>
           );
         })}

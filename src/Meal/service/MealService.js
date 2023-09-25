@@ -1,22 +1,14 @@
 import { config } from "../../config";
 
 class MealService {
-  endpoint = "categories";
+  endpoint = "/filter.php?c";
   baseUrl = config.baseUrl;
-  mealUrl = `${this.baseUrl}/${this.endpoint}`;
 
-  async getAllCategoriesOfMeal() {
-    const res = await fetch(this.baseUrl);
+  async getMealByCategory(category) {
+    const res = await fetch(`${this.baseUrl}/${this.endpoint}=${category}`);
     if (!res.ok) throw new Error();
     const data = await res.json();
-
-    return data.categories;
-  }
-
-  async getAllCategoriesOfMealById(idCategory) {
-    const res = await fetch(`${this.mealUrl}/${idCategory}`);
-    if (!res.ok) throw new Error();
-    return await res.json();
+    return data.meals;
   }
 }
 export default MealService;
